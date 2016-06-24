@@ -26,7 +26,7 @@
 	cp pre-commit .git/hooks/pre-commit; 
 	chmod +x .git/hooks/pre-commit;
 
-这样就可以了.会再你commit 之前检查php语法,如果不通过,会报错,并阻止提交
+这样就可以了.会在commit之前检查php语法,如果不通过,会报错,并阻止提交.
 
 #### 参考资料
 
