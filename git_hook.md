@@ -6,7 +6,7 @@
 
 ### 实现方法
 
-`vim  pre-commit`
+	vim  pre-commit
 
 代码如下
 
@@ -21,5 +21,14 @@
 		fi
 	done
 
+然后执行以下操作
 
+	cp pre-commit .git/hooks/pre-commit; 
+	chmod +x .git/hooks/pre-commit;
 
+这样就可以了.会再你commit 之前检查php语法,如果不通过,会报错,并阻止提交
+
+## 参考资料
+
+- [Git pre-commit хук в Windows](http://plutov.by/post/git_pre_commit_windows)
+- [An Introduction to Git Hooks](https://www.sitepoint.com/introduction-git-hooks/)
