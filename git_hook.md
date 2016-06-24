@@ -9,8 +9,7 @@
 `vim  pre-commit`
 
 代码如下
-`
-#!/bin/sh
+`#!/bin/sh
 php_files=$(git status --short | grep -E '^(A|M)' | awk '{ print $2 }' | grep -E '\.php$')
 for file in $php_files; do
 	php_out=$(php -l "$file" 2>&1)
