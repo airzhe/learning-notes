@@ -1,4 +1,4 @@
-##Mysql5.7新特性之一JSON数据类型探索
+## Mysql5.7新特性之一JSON数据类型探索
 mysql作为一款开源数据库，被各大公司使用在自己的项目中，目前mysql最新版本为5.7.13,在5.7中,mysql加入了不小新的特性。(号称比mysql5.6快3倍)
 1. 性能和可扩展性：改进 InnoDB 的可扩展性和临时表的性能，从而实现更快的网络和大数据加载等操作。
 2. JSON支持：使用 MySQL 的 JSON 功能，你可以结合 NoSQL 的灵活和关系数据库的强大。
@@ -8,7 +8,7 @@ mysql作为一款开源数据库，被各大公司使用在自己的项目中，
 6. 优化: 我们重写了大部分解析器，优化器和成本模型。这提高了可维护性，可扩展性和性能。
 7. GIS: MySQL 5.7 全新的功能，包括 InnoDB 空间索引，使用 Boost.Geometry，同时提高完整性和标准符合性。
 
-#####新建一个表
+##### 新建一个表
 
 ```sql
 CREATE TABLE `workdb`.`members` (  
@@ -17,36 +17,36 @@ CREATE TABLE `workdb`.`members` (
 PRIMARY KEY (`uid`));  
 ```
 
-#####插入一条数据
+##### 插入一条数据
 和平常我们json字符串格式一样。
 ```sql
 INSERT INTO members (`uid` , `payload`) VALUES(NULL , '{"username":"lzf","province":"山东","weight":200,"pwd":"123456"}'); 
 ```
 
-#####查询数据
+##### 查询数据
 如何查询数据，在mysql不支持json之前，我们一般是把字符串读取出来先后解析才能读出我们想要的字段，现在我们可以利用mysql提供我们一个函数json_extract来直接在数据库里查询。
 
-######1)查询username
+###### 1)查询username
 ```sql
 SELECT json_extract(payload,'$.username') FROM members  
 ```
-######2)从复合json中查询数据
+###### 2)从复合json中查询数据
 ```sql
 
 INSERT INTO members (`uid` , `payload`) VALUES(NULL , '{"username":{"last_name":"lu","first_name":"zhengfei"},"province":"山东","weight":200,"pwd":"123456"}');  
 SELECT json_extract(payload,'$.username.last_name') FROM members;  
 ```
-######3)使用->查询
+###### 3)使用->查询
 ```sql
 SELECT payload->'$.pwd' FROM members ORDER BY json_extract(payload,'$.pwd') DESC;  
 ```
 
-######4)从数组中查询数据
+###### 4)从数组中查询数据
 ```sql
 INSERT INTO members (`uid` , `payload`) VALUES(NULL , '{"username":"lzf","province":"山东","weight":200,"pwd":"123456","fav":["book","movies","coding"]}');  
 SELECT json_extract(payload,'$.fav[0]') FROM members;  
 ```
-#####虚拟列
+##### 虚拟列
 
 可能大家会觉得每次查询都要带个json_extract那不是太麻烦了，下面来介绍一个5.7的另一个新功能Generated Column。
 
@@ -68,11 +68,11 @@ mysql因为json新特性具备了nosql数据库数据可扩展的特点，但nos
 SELECT a.uid,a.title,b.name FROM thread a LEFT JOIN thread_content b ON a.uid=b.uid WHERE b.uid=7374428;  mysql
 ```
 
-#####如何更新JSON类型的数据
+##### 如何更新JSON类型的数据
 ```sql
 UPDATE members SET payload = JSON_SET(payload,'$.pwd','99999') where uid=4;  
 ```
-#####添加字段
+##### 添加字段
 ```sql
 ALTER TABLE thread ADD hot int generated always as (json_extract(payload,'$.hot')) VIRTUAL;(0.3秒)  
 ```
