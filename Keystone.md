@@ -1,6 +1,6 @@
 # Keystone
 
-Keystone（OpenStack Identity Service）是OpenStack框架中，负责身份验证、服务规则和服务令牌的功能，用户从 Keystone 获取 Token，在 Token 中 提取 TokenId 以及服务列表；用户访问服务时携带TokenID；相关的服务使用过滤器 authtoken 向 Keystone 验证 TokenID 是否有效，同时返回用户 Token 信息，重新将用户、服务目录等字段添加到 HTTP 头。
+Keystone（OpenStack Identity Service）是OpenStack框架中，负责身份验证、服务规则和服务令牌的功能。用户从 Keystone 获取 Token，在 Token 中 提取 TokenId 以及服务列表；用户访问服务时携带TokenID；相关的服务使用过滤器 authtoken 向 Keystone 验证 TokenID 是否有效，同时返回用户 Token 信息，重新将用户、服务目录等字段添加到 HTTP 头。
 
 
 
@@ -45,7 +45,7 @@ cms_to_ken 把 cms 的签名结果转化为 Keystone 需要的结果，例如：
 
 
 
-#####用户认证
+### 用户认证
 
 用户的认证方式主要有两种
 
@@ -55,7 +55,7 @@ cms_to_ken 把 cms 的签名结果转化为 Keystone 需要的结果，例如：
 
 
 
-**角色管理**
+### 角色管理
 
 对于用户信息的更改，势必会涉及到对 Token 的删除操作，如果某一用户在某一租户下的角色发生变化，必须删除对应的用户 Token。
 
@@ -68,7 +68,7 @@ remove_role_from_user 方法主要做了3件事
 
 
 
-**权限管理**
+### 权限管理
 
 获取用户id，获取租户id，获取用户在租户中的角色，检查权限
 
@@ -80,7 +80,7 @@ def enfore(credentials,action,target) :
 
 
 
-**Policy 基于规则的身份验证引擎**
+### Policy 基于规则的身份验证引擎
 
 policy.json 定义的 3 类规则
 
@@ -95,7 +95,7 @@ policy.json 定义的 3 类规则
 
 
 
-**Token管理**
+### Token管理
 
 auth_token_data 包含 用户信息，租户信息，角色id列表以及用户-租户的附加信息，和到期时间。
 
@@ -107,7 +107,7 @@ Token 是通过 token_api.create_token 方法存储的，drirver 默认为 keyst
 
 
 
-**服务的安全认证**
+### 服务的安全认证
 
 1. 调用 get_admin_token 方法获取管理员用户的 Token ID，首先查看保存的Token 是否过期，如果即将过去，使用 api-paste.ini (如 /etc/nova/api-pase.ini) 中指定的用户名和密码向 Keystone 申请新的Token 并保存在本地。
 2. 调用_json_request 方法 向 Keystone 服务器发送请求，验证用户的Token
@@ -120,7 +120,7 @@ response,data = self._json_request('GET','/v2.0/tokens/%s' % safe_quote(user_tok
 
 
 
-**服务端自己端验证Token** （缺点是用户角色发生改变，服务端不知道）
+### 服务端自己端验证Token （缺点是用户角色发生改变，服务端不知道）
 
 客户端发送用户名密码到 Keystone 验证，生成Token
 
@@ -131,7 +131,7 @@ response,data = self._json_request('GET','/v2.0/tokens/%s' % safe_quote(user_tok
 
 
 
-**Keystone 资源Controller 对象一览**
+### Keystone 资源Controller 对象一览
 
 tenant_controller
 
@@ -145,7 +145,7 @@ endpoint_controller
 
 
 
-**public_service（共用服务）应用程序实现的主要url映射**
+### public_service（共用服务）应用程序实现的主要url映射
 
 | url                          | http方法 | 调用的 controller 方法                 | 描述            |
 | ---------------------------- | :----- | :-------------------------------- | :------------ |
@@ -157,7 +157,7 @@ endpoint_controller
 
 
 
-**admin_servivce（管理服务）应用程序添加的url映射**
+### admin_servivce（管理服务）应用程序添加的url映射
 
 | url                                  | http方法 | 调用的 controller 方法 | 描述          |
 | ------------------------------------ | :----- | :---------------- | :---------- |
@@ -166,7 +166,7 @@ endpoint_controller
 
 
 
-**Keystone 中的重要api一览**
+### Keystone 中的重要api一览
 
 | 名称           | 对应的类                      | 默认额driver                              | 描述        |
 | ------------ | :------------------------ | :------------------------------------- | :-------- |
@@ -183,21 +183,14 @@ admin_token 方式认证，在Keystone 刚刚安装好的时候，数据库是�
 
 
 
-待补充：
+### 待补充：
 
-**OpenStack 各个模块与 Keystone 的交互**
-
-
-
-**问题：**
-
-几个服务共用 Token 还是 每个服务有自己的 Token，如果每个服务都有自己的 Token ，用户需要和服务绑定。
+OpenStack 各个模块与 Keystone 的交互
 
 
 
 
-
-**参考：**
+### 参考：
 
 每天五分钟玩转 OpenStack
 
