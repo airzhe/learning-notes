@@ -1,6 +1,6 @@
 # Keystone
 
-Keystone（OpenStack Identity Service）是OpenStack框架中，负责身份验证、服务规则和服务令牌的功能。用户从 Keystone 获取 Token，在 Token 中 提取 TokenId 以及服务列表；用户访问服务时携带TokenID；相关的服务使用过滤器 authtoken 向 Keystone 验证 TokenID 是否有效，同时返回用户 Token 信息，重新将用户、服务目录等字段添加到 HTTP 头。
+Keystone（OpenStack Identity Service）是OpenStack框架中，负责身份验证、服务规则和服务令牌的功能。用户从 Keystone 获取 Token，在 Token 中 提取 TokenId 以及服务列表；用户访问服务时携带TokenID；相关的服务使用过滤器 authtoken 向 Keystone 验证 TokenID 是否有效，同时返回用户 Token 信息，重新将用户、服务目录等字段添加到 HTTP 头。
 
 
 
